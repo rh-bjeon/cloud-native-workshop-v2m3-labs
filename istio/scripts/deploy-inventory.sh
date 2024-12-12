@@ -1,18 +1,10 @@
 #!/bin/bash
 
-USERXX=$1
-DELAY=$2
 
-if [ -z $USERXX ]
-  then
-    echo "Usage: Input your username like deploy-inventory.sh user1"
-    exit;
-fi
-
-echo Your username is $USERXX
+echo Your username is 
 echo Deploy Inventory service........
 
-oc project $USERXX-inventory || oc new-project $USERXX-inventory
+oc project inventory || oc new-project inventory
 oc delete dc,deployment,bc,build,svc,route,pod,is --all
 
 echo "Waiting 30 seconds to finialize deletion of resources..."
@@ -23,9 +15,7 @@ oc new-app -e POSTGRESQL_USER=inventory \
   -e POSTGRESQL_DATABASE=inventory registry.redhat.io/rhel9/postgresql-15 \
   --name=inventory-database
 
-sed -i "s/USERXX/${USERXX}/g" $PROJECT_SOURCE/inventory/src/main/resources/application.properties
-
-mvn clean package -DskipTests -f $PROJECT_SOURCE/inventory
+mvn clean package -DskipTests -f ~/cloud-native-workshop-v2m3-labs/inventory
 
 oc delete route inventory
 
