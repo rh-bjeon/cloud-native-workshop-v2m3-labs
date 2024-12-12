@@ -16,7 +16,7 @@ oc new-app --as-deployment-config -e POSTGRESQL_USER=catalog \
              openshift/postgresql:10-el8 \
              --name=catalog-database
 
-mvn clean install -Ddekorate.deploy=true -DskipTests -f catalog
+mvn clean install -Ddekorate.deploy=true -DskipTests -f ~/cloud-native-workshop-v2m3-labs/catalog
 
 oc label dc/catalog-database app.openshift.io/runtime=postgresql --overwrite && \
 oc label dc/catalog-springboot app.openshift.io/runtime=spring-boot --overwrite && \
