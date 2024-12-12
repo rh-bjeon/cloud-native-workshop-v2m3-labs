@@ -19,9 +19,9 @@ oc new-app -e POSTGRESQL_USER=catalog \
 mvn clean install -Ddekorate.deploy=true -DskipTests -f ~/cloud-native-workshop-v2m3-labs/catalog
 
 oc label deployment/catalog-database app.openshift.io/runtime=postgresql --overwrite && \
-oc label deployment/catalog-springboot app.openshift.io/runtime=spring-boot --overwrite && \
-oc label deployment/catalog-springboot app.kubernetes.io/part-of=catalog --overwrite && \
+oc label dc/catalog-springboot app.openshift.io/runtime=spring-boot --overwrite && \
+oc label dc/catalog-springboot app.kubernetes.io/part-of=catalog --overwrite && \
 oc label deployment/catalog-database app.kubernetes.io/part-of=catalog --overwrite && \
-oc annotate deployment/catalog-springboot app.openshift.io/connects-to=catalog-database --overwrite && \
-oc annotate deployment/catalog-springboot app.openshift.io/vcs-uri=https://github.com/RedHat-Middleware-Workshops/cloud-native-workshop-v2m2-labs.git --overwrite && \
-oc annotate deployment/catalog-springboot app.openshift.io/vcs-ref=ocp-4.14 --overwrite
+oc annotate dc/catalog-springboot app.openshift.io/connects-to=catalog-database --overwrite && \
+oc annotate dc/catalog-springboot app.openshift.io/vcs-uri=https://github.com/RedHat-Middleware-Workshops/cloud-native-workshop-v2m2-labs.git --overwrite && \
+oc annotate dc/catalog-springboot app.openshift.io/vcs-ref=ocp-4.14 --overwrite
