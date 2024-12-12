@@ -10,7 +10,7 @@ oc delete dc,deployment,bc,build,svc,route,pod,is --all
 echo "Waiting 30 seconds to finialize deletion of resources..."
 sleep 30
 
-oc new-app --as-statefulset -e POSTGRESQL_USER=catalog \
+oc new-app -e POSTGRESQL_USER=catalog \
              -e POSTGRESQL_PASSWORD=mysecretpassword \
              -e POSTGRESQL_DATABASE=catalog \
              openshift/postgresql:10-el8 \
@@ -18,10 +18,10 @@ oc new-app --as-statefulset -e POSTGRESQL_USER=catalog \
 
 mvn clean install -Ddekorate.deploy=true -DskipTests -f ~/cloud-native-workshop-v2m3-labs/catalog
 
-oc label dc/catalog-database app.openshift.io/runtime=postgresql --overwrite && \
-oc label dc/catalog-springboot app.openshift.io/runtime=spring-boot --overwrite && \
-oc label dc/catalog-springboot app.kubernetes.io/part-of=catalog --overwrite && \
-oc label dc/catalog-database app.kubernetes.io/part-of=catalog --overwrite && \
-oc annotate dc/catalog-springboot app.openshift.io/connects-to=catalog-database --overwrite && \
-oc annotate dc/catalog-springboot app.openshift.io/vcs-uri=https://github.com/RedHat-Middleware-Workshops/cloud-native-workshop-v2m2-labs.git --overwrite && \
-oc annotate dc/catalog-springboot app.openshift.io/vcs-ref=ocp-4.14 --overwrite
+oc label deployment/catalog-database app.openshift.io/runtime=postgresql --overwrite && \
+oc label deployment/catalog-springboot app.openshift.io/runtime=spring-boot --overwrite && \
+oc label deployment/catalog-springboot app.kubernetes.io/part-of=catalog --overwrite && \
+oc label deployment/catalog-database app.kubernetes.io/part-of=catalog --overwrite && \
+oc annotate deployment/catalog-springboot app.openshift.io/connects-to=catalog-database --overwrite && \
+oc annotate deployment/catalog-springboot app.openshift.io/vcs-uri=https://github.com/RedHat-Middleware-Workshops/cloud-native-workshop-v2m2-labs.git --overwrite && \
+oc annotate deployment/catalog-springboot app.openshift.io/vcs-ref=ocp-4.14 --overwrite
